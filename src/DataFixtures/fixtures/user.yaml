@@ -1,0 +1,7 @@
+App\Entity\User:
+  user_{1..10}:
+    email: <email()>
+    password: '$2y$13$KZpM5EBgpmXTOivPb6sc.eErNhRXUuP7KtclQ2Xp0ixLtECUyVjMi'
+    firstName: <firstName()>
+    lastName: <lastName()>
+    status: '<randomElement(["ACTIVE", "BANNED"])>'

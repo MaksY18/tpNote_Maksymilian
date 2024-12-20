@@ -1,0 +1,8 @@
+App\Entity\Topic:
+  topic_{1..20}:
+    title: '<sentence(6)>'
+    content: '<paragraph()>'
+    createdAt: '<dateTimeBetween("-1 year", "now")>'
+    category: '@category_<randomDigitNotNull()>'
+    language: '@language_<randomDigitNotNull()>'
+    user: '@user_<randomDigitNotNull()>'

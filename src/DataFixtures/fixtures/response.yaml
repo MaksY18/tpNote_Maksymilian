@@ -1,0 +1,6 @@
+App\Entity\Response:
+  response_{1..50}:
+    content: '<paragraph()>'
+    createdAt: '<dateTimeBetween("-1 year", "now")>'
+    topic: '@topic_<randomDigitNotNull()>'
+    user: '@user_<randomDigitNotNull()>'
