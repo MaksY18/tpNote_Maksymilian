@@ -1,45 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Forum - Liste des Topics{% endblock %}
+{% block title %}Topics{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    <h1 class="text-center mb-4">Liste des Topics</h1>
+    <h1>Topics</h1>
 
-    {% if topics is empty %}
-        <div class="alert alert-warning text-center">
-            Aucun topic disponible pour le moment.
-        </div>
-    {% else %}
-        <div class="row">
-            {% for topic in topics %}
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title text-primary">{{ topic.title }}</h5>
-                            <p class="card-text text-muted">
-                                {{ topic.content|length > 100 ? topic.content[:100] ~ '...' : topic.content }}
-                            </p>
-                            <p class="text-secondary small">
-                                Catégorie : {{ topic.category.name }}
-                            </p>
-                            <p class="text-secondary small">
-                                Langue : {{ topic.language.name }}
-                            </p>
-                            <p class="text-secondary small">
-                                Auteur : {{ topic.user.firstName }} {{ topic.user.lastName }}
-                            </p>
-                            <p class="text-secondary small">
-                                Créé le : {{ topic.createdAt|date('d/m/Y à H:i') }}
-                            </p>
-                            {# <a href="{{ path('topic_show', { id: topic.id }) }}" class="btn btn-primary btn-sm">
-                                Voir le topic
-                            </a> #}
-                        </div>
-                    </div>
+    <a href="{{ path('topic_new') }}" class="btn btn-primary">Créer un nouveau topic</a>
+
+    <div class="mt-4">
+        {% for topic in topics %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ topic.title }}</h5>
+                    <p class="card-text">{{ topic.content }}</p>
+                    <a href="{{ path('topic_show', {'id': topic.id}) }}" class="btn btn-info">Aperçu </a>
+                    <a href="{{ path('topic_edit', {'id': topic.id}) }}" class="btn btn-warning">Modifier </a>
+                    <a href="{{ path('topic_delete', {'id': topic.id}) }}" class="btn btn-danger">Supprimer </a>
                 </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-</div>
+            </div>
+        {% else %}
+            <p>No topics available.</p>
+        {% endfor %}
+    </div>
 {% endblock %}
