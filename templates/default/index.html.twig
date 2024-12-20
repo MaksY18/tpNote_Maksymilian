@@ -23,10 +23,10 @@
                     <p class="card-text">{{ topic.content }}</p>
                     <a href="{{ path('topic_show', {'id': topic.id}) }}" class="btn btn-info">Aperçu</a>
 
-                    {# {% if app.user %} #}
+                    {% if app.user %}
                         <a href="{{ path('topic_edit', {'id': topic.id}) }}" class="btn btn-warning">Modifier</a>
                         <a href="{{ path('topic_delete', {'id': topic.id}) }}" class="btn btn-danger">Supprimer</a>
-                    {# {% endif %} #}
+                    {% endif %}
                 </div>
             </div>
         {% else %}
