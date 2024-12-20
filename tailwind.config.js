@@ -1,9 +1,21 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
+  content: ["./*.html"], // Ajuste ce chemin si tes fichiers HTML sont ailleurs
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        blue: {
+          600: '#2563EB',
+        },
+        pink: {
+          600: '#DB2777',
+        },
+        purple: {
+          500: '#8B5CF6',
+        },
+      },
+    },
   },
-  plugins: [],
-}
-
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
+};
