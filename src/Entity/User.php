@@ -7,16 +7,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -29,7 +30,7 @@ class User
     private ?string $lastName = null;
 
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
-    private ?array $roles = null;
+    private ?array $roles = ['ROLE_USER'];
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
@@ -105,12 +106,18 @@ class User
         return $this;
     }
 
-    public function getRoles(): ?array
+    // Implémentation de l'interface UserInterface
+
+    public function getUserIdentifier(): string
     {
-        return $this->roles;
+        return $this->email;
+    }
+    public function getRoles(): array
+    {
+        return $this->roles ?? ['ROLE_USER'];
     }
 
-    public function setRoles(?array $roles): static
+    public function setRoles(array $roles): static
     {
         $this->roles = $roles;
 
@@ -127,6 +134,16 @@ class User
         $this->status = $status;
 
         return $this;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Si tu stockes des informations sensibles, tu peux les effacer ici
     }
 
     /**
@@ -150,7 +167,6 @@ class User
     public function removeTopic(Topic $topic): static
     {
         if ($this->topics->removeElement($topic)) {
-            // set the owning side to null (unless already changed)
             if ($topic->getUser() === $this) {
                 $topic->setUser(null);
             }
@@ -180,7 +196,6 @@ class User
     public function removeResponse(Response $response): static
     {
         if ($this->responses->removeElement($response)) {
-            // set the owning side to null (unless already changed)
             if ($response->getUser() === $this) {
                 $response->setUser(null);
             }
