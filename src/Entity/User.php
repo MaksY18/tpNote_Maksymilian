@@ -35,6 +35,20 @@ class User implements UserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
 
+    private ?string $plainPassword = null;
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): static
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
     /**
      * @var Collection<int, Topic>
      */
@@ -106,8 +120,6 @@ class User implements UserInterface
         return $this;
     }
 
-    // Implémentation de l'interface UserInterface
-
     public function getUserIdentifier(): string
     {
         return $this->email;
@@ -143,7 +155,7 @@ class User implements UserInterface
 
     public function eraseCredentials(): void
     {
-        // Si tu stockes des informations sensibles, tu peux les effacer ici
+        $this->plainPassword = null;
     }
 
     /**

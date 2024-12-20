@@ -5,7 +5,15 @@
 {% block body %}
     <h1>Topics</h1>
 
-    <a href="{{ path('topic_new') }}" class="btn btn-primary">Créer un nouveau topic</a>
+    {% if app.user %}
+        <div class="mb-4">
+            <p>Bienvenue, {{ app.user.firstName }} {{ app.user.lastName }} !</p>
+            <a href="{{ path('topic_new') }}" class="btn btn-primary">Créer un nouveau topic</a>
+            <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a>
+        </div>
+    {% else %}
+        <a href="{{ path('app_login') }}" class="btn btn-success mb-4">Se connecter</a>
+    {% endif %}
 
     <div class="mt-4">
         {% for topic in topics %}
@@ -13,13 +21,16 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ topic.title }}</h5>
                     <p class="card-text">{{ topic.content }}</p>
-                    <a href="{{ path('topic_show', {'id': topic.id}) }}" class="btn btn-info">Aperçu </a>
-                    <a href="{{ path('topic_edit', {'id': topic.id}) }}" class="btn btn-warning">Modifier </a>
-                    <a href="{{ path('topic_delete', {'id': topic.id}) }}" class="btn btn-danger">Supprimer </a>
+                    <a href="{{ path('topic_show', {'id': topic.id}) }}" class="btn btn-info">Aperçu</a>
+
+                    {# {% if app.user %} #}
+                        <a href="{{ path('topic_edit', {'id': topic.id}) }}" class="btn btn-warning">Modifier</a>
+                        <a href="{{ path('topic_delete', {'id': topic.id}) }}" class="btn btn-danger">Supprimer</a>
+                    {# {% endif %} #}
                 </div>
             </div>
         {% else %}
-            <p>No topics available.</p>
+            <p>Aucun topic disponible.</p>
         {% endfor %}
     </div>
 {% endblock %}
